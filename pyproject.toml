@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "python-project-template"
+name = "er-aws-msk"
 version = "0.1.0"
 description = "Please describe me"
 authors = ["first-name last-name <email@address.com>"]
 license = "Apache 2.0"
 readme = "README.md"
-packages = [{ include = "python_project_template" }]
-homepage = "https://github.com/app-sre/python-project-template"
-repository = "https://github.com/app-sre/python-project-template"
-documentation = "https://github.com/app-sre/python-project-template"
+packages = [{ include = "er_aws_msk" }]
+homepage = "https://github.com/app-sre/er-aws-msk"
+repository = "https://github.com/app-sre/er-aws-msk"
+documentation = "https://github.com/app-sre/er-aws-msk"
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -24,14 +24,14 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-python-project-template = 'python_project_template.__main__:app'
+er-aws-msk = 'er_aws_msk.__main__:app'
 
 # Ruff configuration
 [tool.ruff]
 line-length = 88
 target-version = 'py311'
 required-version = "0.4.8" # keep in sync with dev dependencies!
-src = ["python_project_template"]
+src = ["er_aws_msk"]
 extend-exclude = [
     ".local", # used by poetry in local venv
     ".cache", # used by poetry in local venv
@@ -62,11 +62,11 @@ ignore = [
 preview = true
 
 [tool.ruff.lint.isort]
-known-first-party = ["python_project_template"]
+known-first-party = ["er_aws_msk"]
 
 # Mypy configuration
 [tool.mypy]
-files = ["python_project_template", "tests"]
+files = ["er_aws_msk", "tests"]
 enable_error_code = ["truthy-bool", "redundant-expr"]
 no_implicit_optional = true
 check_untyped_defs = true

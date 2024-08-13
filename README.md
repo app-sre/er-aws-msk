@@ -1,9 +1,9 @@
-# python-project-template
+# er-aws-msk
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![PyPI](https://img.shields.io/pypi/v/python-project-template)][pypi-link]
+[![PyPI](https://img.shields.io/pypi/v/er-aws-msk)][pypi-link]
 [![PyPI platforms][pypi-platforms]][pypi-link]
-![PyPI - License](https://img.shields.io/pypi/l/python-project-template)
+![PyPI - License](https://img.shields.io/pypi/l/er-aws-msk)
 
 This is a template for a Python project. It can be used via GitHub's template feature or by copying and pasting the files into your project.
 
@@ -18,21 +18,21 @@ This is a template for a Python project. It can be used via GitHub's template fe
 ## Usage
 
 1. Create a new GitHub repository using this template.
-1. Replace the dummy project name `python-project-template` with your project name.
+1. Replace the dummy project name `er-aws-msk` with your project name.
 
    ```bash
-    find . -type d -name .git -prune  -o -type f -exec sed -i "s/python-project-template/your-project-name/g" {} \;
-    git mv python_project_template $PROJECT_PACKAGE
-    find . -type d -name .git -prune  -o -type f -exec sed -i "s/python_project_template/$PROJECT_PACKAGE/g" {} \;
+    find . -type d -name .git -prune  -o -type f -exec sed -i "s/er-aws-msk/your-project-name/g" {} \;
+    git mv er_aws_msk $PROJECT_PACKAGE
+    find . -type d -name .git -prune  -o -type f -exec sed -i "s/er_aws_msk/$PROJECT_PACKAGE/g" {} \;
     ```
 
-1. Replace the dummy python package name `python_project_template` (snake_case!) with your package name.
+1. Replace the dummy python package name `er_aws_msk` (snake_case!) with your package name.
 
    ```bash
     export PROJECT_PACKAGE=your_project_name # snake_case
-    git mv python_project_template $PROJECT_PACKAGE
-    find . -type d -name .git -prune  -o -type f -exec sed -i "s/python_project_template/$PROJECT_PACKAGE/g" {} \;
+    git mv er_aws_msk $PROJECT_PACKAGE
+    find . -type d -name .git -prune  -o -type f -exec sed -i "s/er_aws_msk/$PROJECT_PACKAGE/g" {} \;
     ```
 
-[pypi-link]:                https://pypi.org/project/python-project-template/
-[pypi-platforms]:           https://img.shields.io/pypi/pyversions/python-project-template
+[pypi-link]:                https://pypi.org/project/er-aws-msk/
+[pypi-platforms]:           https://img.shields.io/pypi/pyversions/er-aws-msk

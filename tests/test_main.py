@@ -1,1 +1,1 @@
-import python_project_template.__main__  # noqa: F401 - test imports
+import er_aws_msk.__main__  # noqa: F401 - test imports
