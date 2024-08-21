@@ -47,3 +47,6 @@ dmypy.json
 # misc
 spike.py
 **/.DS_Store
+
+cdktf.out
+input.json

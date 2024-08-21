@@ -1,32 +1,33 @@
 CODE_ROOT := er_aws_msk
-# TWINE_USERNAME & TWINE_PASSWORD are available in the Jenkins job
-BUILD_ARGS := CODE_ROOT=$(CODE_ROOT) POETRY_VERSION=1.8.3 TWINE_USERNAME TWINE_PASSWORD
+IMAGE_NAME := quay.io/app-sre/er-aws-msk
+BUILD_ARGS := CODE_ROOT=$(CODE_ROOT) POETRY_VERSION=1.8.3 IMAGE_NAME=$(IMAGE_NAME)
 CONTAINER_ENGINE ?= $(shell which podman >/dev/null 2>&1 && echo podman || echo docker)
 
-.EXPORT_ALL_VARIABLES:
-POETRY_HTTP_BASIC_PYPI_USERNAME = $(TWINE_USERNAME)
-POETRY_HTTP_BASIC_PYPI_PASSWORD = $(TWINE_PASSWORD)
+IMAGE_TAG := $(shell git describe --tags)
+ifeq ($(IMAGE_TAG),)
+	IMAGE_TAG = pre
+endif
 
+.PHONY: format
 format:
 	poetry run ruff check
 	poetry run ruff format
-.PHONY: format
 
-pr-check:
-	$(CONTAINER_ENGINE) build --build-arg MAKE_TARGET=test $(foreach arg,$(BUILD_ARGS),--build-arg $(arg)) .
-.PHONY: pr-check
-
-test:
-	poetry run ruff check --no-fix
-	poetry run ruff format --check
-	poetry run mypy
-	poetry run pytest -vv --cov=$(CODE_ROOT) --cov-report=term-missing --cov-report xml
 .PHONY: test
+test: build
+	$(CONTAINER_ENGINE) build -t $(IMAGE_NAME)-test $(foreach arg,$(BUILD_ARGS),--build-arg $(arg)) -f dockerfiles/Dockerfile.test .
+	$(CONTAINER_ENGINE) run --rm --entrypoint poetry $(IMAGE_NAME)-test run ruff check --no-fix
+	$(CONTAINER_ENGINE) run --rm --entrypoint poetry $(IMAGE_NAME)-test run ruff format --check
+	$(CONTAINER_ENGINE) run --rm --entrypoint poetry $(IMAGE_NAME)-test run mypy
+	$(CONTAINER_ENGINE) run --rm --entrypoint poetry $(IMAGE_NAME)-test run pytest -vv --cov=$(CODE_ROOT) --cov-report=term-missing --cov-report xml
 
-build-deploy:
-	$(CONTAINER_ENGINE) build --build-arg MAKE_TARGET=pypi $(foreach arg,$(BUILD_ARGS),--build-arg $(arg)) .
-.PHONY: build-deploy
+.PHONY: build
+build:
+	$(CONTAINER_ENGINE) build -t $(IMAGE_NAME):${IMAGE_TAG} $(foreach arg,$(BUILD_ARGS),--build-arg $(arg)) -f dockerfiles/Dockerfile .
 
-pypi:
-	poetry publish --build --skip-existing
-.PHONY: pypi
+.PHONY: push
+push:
+	$(CONTAINER_ENGINE) push ${BASE_IMAGE}:${IMAGE_TAG}
+
+.PHONY: deploy
+deploy: build test push

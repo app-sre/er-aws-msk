@@ -1,0 +1,6 @@
+ARG IMAGE_NAME
+ARG IMAGE_TAG=pre
+FROM ${IMAGE_NAME}:${IMAGE_TAG}
+
+RUN poetry install --quiet --with dev
+COPY tests/ ./tests/
