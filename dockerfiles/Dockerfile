@@ -24,7 +24,7 @@ RUN python3 -m pip install --upgrade pip && \
 
 # install stack dependencies
 COPY README.md pyproject.toml poetry.lock ./
-RUN poetry install --quiet --no-root --without dev
+RUN poetry install --no-root --without dev
 
 # the source code
 ARG CODE_ROOT
