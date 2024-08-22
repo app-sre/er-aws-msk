@@ -33,4 +33,4 @@ COPY $CODE_ROOT ./$CODE_ROOT
 # cdktf files
 COPY cdktf.json entrypoint.sh ./
 
-ENTRYPOINT [ "bash", "-e", "entrypoint.sh" ]
+ENTRYPOINT [ "entrypoint.sh" ]

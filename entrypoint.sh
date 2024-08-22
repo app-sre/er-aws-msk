@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Copy AWS credentials file to HOME/.aws/ if it exists
 test -f /credentials && mkdir -p "${HOME}/.aws" && cp /credentials "${HOME}/.aws/credentials"
