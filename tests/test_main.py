@@ -10,7 +10,7 @@ from er_aws_msk.app_interface_input import AppInterfaceInput
 
 
 @pytest.fixture(autouse=True)
-def _prepare_test_env(
+def prepare_test_env(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
     raw_input_data: dict,
