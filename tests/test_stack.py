@@ -26,12 +26,6 @@ def synthesized(stack: Stack) -> str:
     return Testing.synth(stack)
 
 
-# No idea why this is failing if executed in the docker container but not locally!?!
-# def test_stack_is_valid_terraform(stack: Stack) -> None:
-#     """Test stack produces valid Terraform code."""
-#     assert Testing.to_be_valid_terraform(Testing.full_synth(stack))  # noqa: ERA001
-
-
 @pytest.mark.parametrize(
     "provider_name",
     [
