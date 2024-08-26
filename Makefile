@@ -1,12 +1,11 @@
 CODE_ROOT := er_aws_msk
-IMAGE_NAME := quay.io/app-sre/er-aws-msk
-BUILD_ARGS := CODE_ROOT=$(CODE_ROOT) POETRY_VERSION=1.8.3 IMAGE_NAME=$(IMAGE_NAME)
 CONTAINER_ENGINE ?= $(shell which podman >/dev/null 2>&1 && echo podman || echo docker)
-
+IMAGE_NAME := quay.io/app-sre/er-aws-msk
 IMAGE_TAG := $(shell git describe --tags)
 ifeq ($(IMAGE_TAG),)
 	IMAGE_TAG = pre
 endif
+BUILD_ARGS := CODE_ROOT=$(CODE_ROOT) POETRY_VERSION=1.8.3 IMAGE_NAME=$(IMAGE_NAME) IMAGE_TAG=$(IMAGE_TAG)
 
 .PHONY: format
 format:
