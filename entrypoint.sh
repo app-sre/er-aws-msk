@@ -35,7 +35,9 @@ if [[ $ACTION == "Apply" ]]; then
     if [[ $DRY_RUN == "True" ]]; then
         cdktf plan --skip-synth
         terraform -chdir="$CDKTF_OUT_DIR" show -json "$CDKTF_OUT_DIR"/plan > "$CDKTF_OUT_DIR"/plan.json
-        test -f validate_plan.py && python3 validate_plan.py "$CDKTF_OUT_DIR"/plan.json
+        if [ -f "validate_plan.py" ]; then
+            python3 validate_plan.py "$CDKTF_OUT_DIR"/plan.json
+        fi
     elif [[ $DRY_RUN == "False" ]]; then
         cdktf apply \
             --skip-synth \
