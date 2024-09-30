@@ -34,8 +34,8 @@ terraform -chdir="$CDKTF_OUT_DIR" init
 if [[ $ACTION == "Apply" ]]; then
     if [[ $DRY_RUN == "True" ]]; then
         cdktf plan --skip-synth
-        terraform -chdir="$CDKTF_OUT_DIR" show -json "$CDKTF_OUT_DIR"/plan > "$CDKTF_OUT_DIR"/plan.json
         if [ -f "validate_plan.py" ]; then
+            terraform -chdir="$CDKTF_OUT_DIR" show -json "$CDKTF_OUT_DIR"/plan > "$CDKTF_OUT_DIR"/plan.json
             python3 validate_plan.py "$CDKTF_OUT_DIR"/plan.json
         fi
     elif [[ $DRY_RUN == "False" ]]; then
