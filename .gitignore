@@ -168,3 +168,5 @@ cython_debug/
 
 cdktf.out
 input.json
+credentials
+tmp/
