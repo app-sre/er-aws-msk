@@ -21,11 +21,43 @@ To debug and run the module locally, run the following commands:
 $ make build
 
 # Get the input file from app-interface
-qontract-cli --config=<CONFIG_PROD_TOML> external-resources get-input aws <AWS_ACCOUNT_NAME> msk <MKK_IDENTIFIER> > input.json
+qontract-cli --config=<CONFIG_TOML> external-resources --provisioner <AWS_ACCOUNT_NAME> --provider msk --identifier <MSK_IDENTIFIER> get-input > tmp/input.json
 
-# Login to the destination AWS account
-$ rh-aws-saml-login <AWS_ACCOUNT_NAME>
+# Get the AWS credentials
+$ vault login -method=oidc -address=https://vault.devshift.net
+$ vault kv get \
+    -mount app-sre/ \
+    -field credentials \
+    external-resources/<AWS_ACCOUNT_NAME> > tmp/credentials
 
 # Run the stack
-$ docker run --rm -it --mount type=bind,source=$PWD/input.json,target=/inputs/input.json -e AWS_REGION=$AWS_REGION -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY  quay.io/app-sre/er-aws-msk:pre
+$ docker run --rm -it \
+    --mount type=bind,source=$PWD/tmp/input.json,target=/inputs/input.json \
+    --mount type=bind,source=$PWD/tmp/credentials,target=/credentials \
+    quay.io/app-sre/er-aws-msk:$(git describe --tags)
+```
+
+Get the stack file:
+
+```bash
+$ docker rm -f erv2 && docker run --name erv2 --mount type=bind,source=$PWD/tmp/input.json,target=/inputs/input.json --mount type=bind,source=$PWD/tmp/credentials,target=/credentials -e AWS_SHARED_CREDENTIALS_FILE=/credentials --entrypoint cdktf quay.io/app-sre/er-aws-msk:$(git describe --tags) synth --output /tmp/cdktf.out
+
+docker cp erv2:/tmp/cdktf.out/stacks/CDKTF/cdk.tf.json tmp/cdk.tf.json
+```
+
+Compile the plan:
+
+```bash
+cd tmp/...
+terraform init
+terraform plan -out=plan.out
+terraform show -json plan.out > plan.json
+```
+
+Run the validation:
+
+```bash
+export ER_INPUT_FILE=$PWD/tmp/input.json
+export AWS_SHARED_CREDENTIALS_FILE=$PWD/tmp/credentials
+python validate_plan.py tmp/plan.json
 ```
