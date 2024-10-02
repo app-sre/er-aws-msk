@@ -26,20 +26,6 @@ logger = logging.getLogger("botocore")
 logger.setLevel(logging.ERROR)
 
 
-class SubnetNotFoundError(Exception):
-    """Subnet not found error"""
-
-    def __init__(self, subnet: str) -> None:
-        super().__init__(f"Subnet {subnet} does not exist")
-
-
-class SecurityGroupNotFoundError(Exception):
-    """Security Group not found error"""
-
-    def __init__(self, sg: str) -> None:
-        super().__init__(f"Security Group {sg} does not exist")
-
-
 class AWSApi:
     """AWS Api Class"""
 
@@ -52,23 +38,21 @@ class AWSApi:
         """Gets a boto EC2 client"""
         return self.session.client("ec2", config=self.config)
 
-    def get_subnet(self, subnet: str) -> SubnetTypeDef:
+    def get_subnets(self, subnets: Sequence[str]) -> list[SubnetTypeDef]:
         """Get the subnet"""
         data = self.ec2_client.describe_subnets(
-            SubnetIds=[subnet],
+            SubnetIds=subnets,
         )
-        if not data["Subnets"]:
-            raise SubnetNotFoundError(subnet)
-        return data["Subnets"][0]
+        return data["Subnets"]
 
-    def get_security_group(self, subnet: str) -> SecurityGroupTypeDef:
+    def get_security_groups(
+        self, security_groups: Sequence[str]
+    ) -> list[SecurityGroupTypeDef]:
         """Get the subnet"""
         data = self.ec2_client.describe_security_groups(
-            GroupIds=[subnet],
+            GroupIds=security_groups,
         )
-        if not data["SecurityGroups"]:
-            raise SubnetNotFoundError(subnet)
-        return data["SecurityGroups"][0]
+        return data["SecurityGroups"]
 
 
 class MskPlanValidator:
@@ -94,21 +78,25 @@ class MskPlanValidator:
         ]
 
     def _validate_subnets(self, subnets: Sequence[str]) -> str | None:
+        logging.info(f"Validating subnets {subnets}")
+
         vpc_ids: set[str] = set()
         if len(subnets) < 3:
             self.errors.append("At least 3 subnets are required")
             return None
 
-        for subnet in subnets:
-            logging.info(f"Validating subnet {subnet}")
-            try:
-                data = self.aws_api.get_subnet(subnet)
-                if "VpcId" not in data:
-                    self.errors.append(f"VpcId not found for subnet {subnet}")
-                    continue
-                vpc_ids.add(data["VpcId"])
-            except SubnetNotFoundError as e:
-                self.errors.append(str(e))
+        data = self.aws_api.get_subnets(subnets)
+        if missing := set(subnets).difference({s.get("SubnetId") for s in data}):
+            self.errors.append(f"Subnet(s) {missing} not found")
+            return None
+
+        for subnet in data:
+            if "VpcId" not in subnet:
+                self.errors.append(
+                    f"VpcId not found for subnet {subnet.get('SubnetId')}"
+                )
+                continue
+            vpc_ids.add(subnet["VpcId"])
         if len(vpc_ids) > 1:
             self.errors.append("All subnets must belong to the same VPC")
         return vpc_ids.pop()
@@ -116,19 +104,17 @@ class MskPlanValidator:
     def _validate_security_groups(
         self, security_groups: Sequence[str], vpc_id: str
     ) -> None:
-        for sg in security_groups:
-            logging.info(f"Validating security group {sg}")
-            try:
-                data = self.aws_api.get_security_group(sg)
-                if "VpcId" not in data:
-                    self.errors.append(f"VpcId not found for security group {sg}")
-                    continue
-                if data["VpcId"] != vpc_id:
-                    self.errors.append(
-                        f"Security group {sg} does not belong to the same VPC as the subnets"
-                    )
-            except SecurityGroupNotFoundError as e:
-                self.errors.append(str(e))
+        logging.info(f"Validating security group {security_groups}")
+        data = self.aws_api.get_security_groups(security_groups)
+        if missing := set(security_groups).difference({s.get("GroupId") for s in data}):
+            self.errors.append(f"Security group(s) {missing} not found")
+            return
+
+        for sg in data:
+            if sg.get("VpcId") != vpc_id:
+                self.errors.append(
+                    f"Security group {sg.get('GroupId')} does not belong to the same VPC as the subnets"
+                )
 
     def validate(self) -> bool:
         """Validate method"""
