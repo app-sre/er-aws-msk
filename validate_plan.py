@@ -79,7 +79,7 @@ class MskPlanValidator:
     ) -> None:
         self.plan = plan
         self.input = app_interface_input
-        self.aws_api = AWSApi(config_options={"region_name": "us-east-1"})
+        self.aws_api = AWSApi(config_options={"region_name": self.input.data.region})
         self.errors: list[str] = []
 
     @property
