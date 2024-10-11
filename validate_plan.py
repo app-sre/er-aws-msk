@@ -25,6 +25,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("botocore")
 logger.setLevel(logging.ERROR)
 
+MIN_SUBNETS = 3
+
 
 class AWSApi:
     """AWS Api Class"""
@@ -81,7 +83,7 @@ class MskPlanValidator:
         logging.info(f"Validating subnets {subnets}")
 
         vpc_ids: set[str] = set()
-        if len(subnets) < 3:
+        if len(subnets) < MIN_SUBNETS:
             self.errors.append("At least 3 subnets are required")
             return None
 
