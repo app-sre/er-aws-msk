@@ -31,6 +31,4 @@ ARG CODE_ROOT
 COPY $CODE_ROOT ./$CODE_ROOT
 
 # cdktf files
-COPY cdktf.json entrypoint.sh ./
-
-ENTRYPOINT [ "./entrypoint.sh" ]
+COPY cdktf.json ./
