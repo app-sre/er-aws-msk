@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "er-aws-msk"
-version = "0.1.1"
+version = "0.1.2"
 description = "ERv2 module for managing AWS MSK clusters"
 authors = ["AppSRE <sd-app-sre@redhat.com>"]
 license = "Apache 2.0"
@@ -12,8 +12,10 @@ documentation = "https://github.com/app-sre/er-aws-msk"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-cdktf-cdktf-provider-aws = "^19.30.0"
-cdktf-cdktf-provider-random = "^11.0.2"
+# AWS provider 5.60.0 https://github.com/cdktf/cdktf-provider-aws/releases/tag/v19.28.0
+cdktf-cdktf-provider-aws = "19.28.0"
+# Random provider 3.6.2 https://github.com/cdktf/cdktf-provider-random/releases/tag/v11.0.2
+cdktf-cdktf-provider-random = "11.0.2"
 external-resources-io = ">=0.3.2"
 pydantic = "^2.8.2"
 boto3 = "^1.35.30"
