@@ -27,6 +27,7 @@ COPY README.md pyproject.toml poetry.lock ./
 RUN poetry install --no-root --without dev
 
 # the source code
+COPY validate_plan.py ./
 ARG CODE_ROOT
 COPY $CODE_ROOT ./$CODE_ROOT
 
