@@ -22,8 +22,8 @@ else:
 from er_aws_msk.app_interface_input import AppInterfaceInput
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("botocore")
-logger.setLevel(logging.ERROR)
+logger = logging.getLogger(__name__)
+logging.getLogger("botocore").setLevel(logging.ERROR)
 
 MIN_SUBNETS = 3
 
@@ -80,7 +80,7 @@ class MskPlanValidator:
         ]
 
     def _validate_subnets(self, subnets: Sequence[str]) -> str | None:
-        logging.info(f"Validating subnets {subnets}")
+        logger.info(f"Validating subnets {subnets}")
 
         vpc_ids: set[str] = set()
         if len(subnets) < MIN_SUBNETS:
@@ -106,7 +106,7 @@ class MskPlanValidator:
     def _validate_security_groups(
         self, security_groups: Sequence[str], vpc_id: str
     ) -> None:
-        logging.info(f"Validating security group {security_groups}")
+        logger.info(f"Validating security group {security_groups}")
         data = self.aws_api.get_security_groups(security_groups)
         if missing := set(security_groups).difference({s.get("GroupId") for s in data}):
             self.errors.append(f"Security group(s) {missing} not found")
@@ -142,11 +142,11 @@ if __name__ == "__main__":
             file_path=os.environ.get("ER_INPUT_FILE", "/inputs/input.json"),
         ),
     )
-    logging.info("Running MSK terraform plan validation")
+    logger.info("Running MSK terraform plan validation")
     plan = TerraformJsonPlanParser(plan_path=sys.argv[1])
     validator = MskPlanValidator(plan, app_interface_input)
     if not validator.validate():
-        logging.error(validator.errors)
+        logger.error(validator.errors)
         sys.exit(1)
 
-    logging.info("Validation ended succesfully")
+    logger.info("Validation ended succesfully")
