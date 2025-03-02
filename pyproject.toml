@@ -23,7 +23,7 @@ dev = [
     "boto3-stubs-lite[ec2]==1.37.19",
     "external-resources-io[cli]==0.6.1",
     "mypy==1.15.0",
-    "pytest==8.3.4",
+    "pytest==8.3.5",
     "pytest-cov==6.0.0",
     "ruff==0.11.2",
 ]
