@@ -59,14 +59,14 @@ wheels = [
 
 [[package]]
 name = "botocore-stubs"
-version = "1.38.0"
+version = "1.38.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "types-awscrt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/67/c7/16a23273cd82c5c8dddc4954304a1fe5792da0513d22221782a05d51befd/botocore_stubs-1.38.0.tar.gz", hash = "sha256:c1a59c3b40925710ed351f288cde8e92833b0c39e0182e6a6520db2fbfbb54fa", size = 42269 }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/c4/eba867e591deb1e07d955b749f699f8bc44ab0ff48debba72977eeb86b92/botocore_stubs-1.38.1.tar.gz", hash = "sha256:e2fc463b5981eb66b6a809b08682383df10dfaeb703ccbbde1f10424659ac219", size = 42277 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/de/b3/1107529ee6495671e56cba8f7539ac4cf475de8f971679dd16eded32e381/botocore_stubs-1.38.0-py3-none-any.whl", hash = "sha256:6aae362f71830d553a4090267de7cabda93ac4c813c3ccc417205f0afdb8da62", size = 65591 },
+    { url = "https://files.pythonhosted.org/packages/27/ec/a242a9e6142e0e3d0f624326f2dc70a0ec188e67965b024675f207bb950e/botocore_stubs-1.38.1-py3-none-any.whl", hash = "sha256:9a5bc74d0cd21f3a3a025d97780d740cba2618b4ce7bb37b9cc93064039490a5", size = 65590 },
 ]
 
 [[package]]
