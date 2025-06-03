@@ -44,5 +44,5 @@ $ vault kv get \
 $ docker run --rm -it \
     --mount type=bind,source=$PWD/tmp/input.json,target=/inputs/input.json \
     --mount type=bind,source=$PWD/tmp/credentials,target=/credentials \
-    quay.io/app-sre/er-aws-msk:$(git describe --tags)
+    quay.io/redhat-services-prod/app-sre-tenant/er-aws-msk-main/er-aws-msk-main:$(git describe --tags)
 ```
