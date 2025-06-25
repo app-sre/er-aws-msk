@@ -1,6 +1,6 @@
 [project]
 name = "er-aws-msk"
-version = "0.4.3"
+version = "0.5.0"
 description = "ERv2 module for managing AWS msk clusters"
 authors = [{ name = "AppSRE", email = "sd-app-sre@redhat.com" }]
 license = { text = "Apache 2.0" }
