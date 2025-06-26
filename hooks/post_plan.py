@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 import sys
-from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any
 
 from boto3 import Session
@@ -16,10 +17,12 @@ from external_resources_io.terraform import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
+
     from mypy_boto3_ec2.client import EC2Client
     from mypy_boto3_ec2.type_defs import SecurityGroupTypeDef, SubnetTypeDef
-else:
-    EC2Client = SubnetTypeDef = SecurityGroupTypeDef = object
+    from mypy_boto3_kafka.client import KafkaClient
+    from mypy_boto3_kafka.type_defs import KafkaVersionTypeDef
 
 from er_aws_msk.app_interface_input import AppInterfaceInput
 
@@ -40,6 +43,11 @@ class AWSApi:
         """Gets a boto EC2 client"""
         return self.session.client("ec2", config=self.config)
 
+    @property
+    def kafka_client(self) -> KafkaClient:
+        """Gets a boto Kafka client"""
+        return self.session.client("kafka", config=self.config)
+
     def get_subnets(self, subnets: Sequence[str]) -> list[SubnetTypeDef]:
         """Get the subnet"""
         data = self.ec2_client.describe_subnets(
@@ -55,6 +63,13 @@ class AWSApi:
             GroupIds=security_groups,
         )
         return data["SecurityGroups"]
+
+    def get_kafka_versions(self) -> list[str]:
+        """Get available MSK Kafka versions"""
+        versions_data: list[KafkaVersionTypeDef] = []
+        for page in self.kafka_client.get_paginator("list_kafka_versions").paginate():
+            versions_data += page["KafkaVersions"]
+        return [v["Version"] for v in versions_data if "Version" in v]
 
 
 class MskPlanValidator:
@@ -118,11 +133,27 @@ class MskPlanValidator:
                     f"Security group {sg.get('GroupId')} does not belong to the same VPC as the subnets"
                 )
 
+    def _validate_kafka_version(self, kafka_version: str) -> None:
+        logger.info(f"Validating kafka_version {kafka_version}")
+        available_versions = self.aws_api.get_kafka_versions()
+        if not available_versions:
+            self.errors.append("Could not retrieve available Kafka versions from AWS.")
+            return
+
+        if kafka_version not in available_versions:
+            self.errors.append(
+                f"Invalid kafka_version: '{kafka_version}'. "
+                f"Available versions are: {', '.join(available_versions)}"
+            )
+
     def validate(self) -> bool:
         """Validate method"""
         for u in self.msk_instance_updates:
             if not u.change or not u.change.after:
                 continue
+
+            self._validate_kafka_version(kafka_version=u.change.after["kafka_version"])
+
             if vpc_id := self._validate_subnets(
                 subnets=u.change.after["broker_node_group_info"][0]["client_subnets"]
             ):

@@ -42,6 +42,9 @@ wheels = [
 ec2 = [
     { name = "mypy-boto3-ec2" },
 ]
+kafka = [
+    { name = "mypy-boto3-kafka" },
+]
 
 [[package]]
 name = "botocore"
@@ -122,7 +125,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "boto3-stubs-lite", extra = ["ec2"] },
+    { name = "boto3-stubs-lite", extra = ["ec2", "kafka"] },
     { name = "external-resources-io", extra = ["cli"] },
     { name = "mypy" },
     { name = "pytest" },
@@ -139,7 +142,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "boto3-stubs-lite", extras = ["ec2"], specifier = "==1.38.44" },
+    { name = "boto3-stubs-lite", extras = ["ec2", "kafka"], specifier = "==1.38.44" },
     { name = "external-resources-io", extras = ["cli"], specifier = "==0.6.1" },
     { name = "mypy", specifier = "==1.16.1" },
     { name = "pytest", specifier = "==8.4.1" },
@@ -231,6 +234,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/2f/01/5bf2f4ceedc89fb14ef914d2739deaed201de936b718ba4f12a00a1752a6/mypy_boto3_ec2-1.38.43.tar.gz", hash = "sha256:6011dc288097fb4da4aa1cbfa29b25da8ae038fad3c74cd9f8182dca72e14440", size = 400820, upload-time = "2025-06-24T19:43:28.597Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/db/e8/702af87877861cb45035b1207309f3b62e77deeac6c51cb9b15749b87926/mypy_boto3_ec2-1.38.43-py3-none-any.whl", hash = "sha256:92c4487b1855c568deb0474ed4ca2878020bfb0b330cdb0ce0d8551c3dfbb054", size = 390212, upload-time = "2025-06-24T19:43:15.62Z" },
+]
+
+[[package]]
+name = "mypy-boto3-kafka"
+version = "1.38.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/3c/85/71a49a6fb0787fb559994c8f55a4fb3354dac21ca711a406176102207530/mypy_boto3_kafka-1.38.0.tar.gz", hash = "sha256:6711106ade377f3a0d7bed89d2e2d8df1484df631159b2c76643491f20d7e3ce", size = 35019, upload-time = "2025-04-22T21:27:20.695Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fa/14/cf0b4f3245618cd9d09e99a1e5f6e34761d3cbb295ee3a194ec7ef5673be/mypy_boto3_kafka-1.38.0-py3-none-any.whl", hash = "sha256:5030fd2b52c0531727356c8964a50b58da5e179539644bb25ef56e77c27fad60", size = 39338, upload-time = "2025-04-22T21:27:18.426Z" },
 ]
 
 [[package]]
