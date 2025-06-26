@@ -30,6 +30,7 @@ RUN uv sync --frozen --no-group dev --no-install-project --python /usr/bin/pytho
 # the source code
 COPY README.md ./
 COPY hooks ./hooks
+COPY hooks_lib ./hooks_lib
 COPY er_aws_msk ./er_aws_msk
 # Sync the project
 RUN uv sync --frozen --no-group dev
