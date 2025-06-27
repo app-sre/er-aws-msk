@@ -8,8 +8,9 @@ format:
 
 .PHONY: image_tests
 image_tests:
-	# hooks must be copied
+	# hooks and hooks_lib must be copied
 	[ -d "hooks" ]
+	[ -d "hooks_lib" ]
 
 	# sources must be copied
 	[ -d "$$TERRAFORM_MODULE_SRC_DIR" ]
@@ -26,7 +27,7 @@ code_tests:
 	uv run ruff format --check
 	terraform fmt -check=true "$$TERRAFORM_MODULE_SRC_DIR"
 	uv run mypy
-	uv run pytest -vv --cov=er_aws_msk --cov=hooks --cov-report=term-missing --cov-report xml
+	uv run pytest -vv --cov=er_aws_msk --cov=hooks --cov=hooks_lib --cov-report=term-missing --cov-report xml
 
 .PHONY: in_container_test
 in_container_test: image_tests code_tests

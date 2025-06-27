@@ -1,6 +1,6 @@
 [project]
 name = "er-aws-msk"
-version = "0.5.0"
+version = "0.5.1"
 description = "ERv2 module for managing AWS msk clusters"
 authors = [{ name = "AppSRE", email = "sd-app-sre@redhat.com" }]
 license = { text = "Apache 2.0" }
@@ -19,11 +19,12 @@ documentation = "https://github.com/app-sre/er-aws-msk"
 
 [dependency-groups]
 dev = [
-    "boto3-stubs-lite[ec2]==1.38.44",
+    "boto3-stubs-lite[ec2,kafka]==1.38.44",
     "external-resources-io[cli]==0.6.1",
     "mypy==1.16.1",
     "pytest==8.4.1",
     "pytest-cov==6.2.1",
+    "pytest-mock==3.14.1",
     "ruff==0.12.0",
 ]
 
@@ -41,7 +42,7 @@ only-include = ["er_aws_msk"]
 [tool.ruff]
 line-length = 88
 target-version = 'py312'
-src = ["er_aws_msk", "hooks"]
+src = ["er_aws_msk", "hooks", "hooks_lib"]
 fix = true
 
 [tool.ruff.lint]
@@ -81,12 +82,12 @@ ignore = [
 preview = true
 
 [tool.ruff.lint.isort]
-known-first-party = ["er_aws_msk", "hooks"]
+known-first-party = ["er_aws_msk", "hooks", "hooks_lib"]
 
 # Mypy configuration
 [tool.mypy]
 plugins = "pydantic.mypy"
-files = ["er_aws_msk", "hooks", "tests"]
+files = ["er_aws_msk", "hooks", "hooks_lib", "tests"]
 enable_error_code = ["truthy-bool", "redundant-expr"]
 no_implicit_optional = true
 check_untyped_defs = true
