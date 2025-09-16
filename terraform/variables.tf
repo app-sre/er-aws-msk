@@ -7,16 +7,6 @@ variable "client_authentication" {
   default = null
 }
 
-variable "default_tags" {
-  type    = list(map(any))
-  default = []
-}
-
-variable "default_tags_tf" {
-  type    = map(any)
-  default = null
-}
-
 variable "identifier" {
   type = string
 }
@@ -68,5 +58,5 @@ variable "storage_mode" {
 
 variable "tags" {
   type    = map(string)
-  default = null
+  default = {}
 }
