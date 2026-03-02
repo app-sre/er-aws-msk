@@ -36,10 +36,11 @@ resource "aws_msk_configuration" "this" {
 }
 
 resource "aws_secretsmanager_secret" "this" {
-  for_each   = var.scram_users
-  name       = "AmazonMSK_${var.identifier}-${each.key}"
-  tags       = var.tags
-  kms_key_id = aws_kms_key.this.key_id
+  for_each                = var.scram_users
+  name                    = "AmazonMSK_${var.identifier}-${each.key}"
+  tags                    = var.tags
+  kms_key_id              = aws_kms_key.this.key_id
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "this" {
