@@ -21,7 +21,7 @@ documentation = "https://github.com/app-sre/er-aws-msk"
 dev = [
     "boto3-stubs-lite[ec2,kafka]==1.43.2",
     "external-resources-io[cli]==0.6.4",
-    "mypy==1.20.2",
+    "mypy==2.0.0",
     "pytest==9.0.3",
     "pytest-cov==7.1.0",
     "pytest-mock==3.15.1",
