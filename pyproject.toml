@@ -1,11 +1,11 @@
 [project]
 name = "er-aws-msk"
-version = "0.7.1"
+version = "0.8.0"
 description = "ERv2 module for managing AWS msk clusters"
 authors = [{ name = "AppSRE", email = "sd-app-sre@redhat.com" }]
 license = { text = "Apache 2.0" }
 readme = "README.md"
-requires-python = "~= 3.12.0"
+requires-python = "~= 3.14.0"
 dependencies = [
     "boto3==1.43.6",
     "external-resources-io==0.6.4",
@@ -41,7 +41,6 @@ only-include = ["er_aws_msk"]
 # Ruff configuration
 [tool.ruff]
 line-length = 88
-target-version = 'py312'
 src = ["er_aws_msk", "hooks", "hooks_lib"]
 fix = true
 
@@ -83,6 +82,13 @@ preview = true
 
 [tool.ruff.lint.isort]
 known-first-party = ["er_aws_msk", "hooks", "hooks_lib"]
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = ["pydantic.BaseModel"]
+runtime-evaluated-decorators = [
+    "pydantic.validate_call",
+    "dataclasses.dataclass",
+]
 
 # Mypy configuration
 [tool.mypy]
