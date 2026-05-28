@@ -1,11 +1,15 @@
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import pytest
 from external_resources_io.terraform import Action, ResourceChange
 
-from er_aws_msk.app_interface_input import AppInterfaceInput
 from hooks.post_plan import MskPlanValidator, TerraformJsonPlanParser
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from er_aws_msk.app_interface_input import AppInterfaceInput
 
 
 @pytest.fixture
