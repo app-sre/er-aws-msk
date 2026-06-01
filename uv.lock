@@ -153,14 +153,14 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "boto3", specifier = "==1.43.6" },
-    { name = "external-resources-io", specifier = "==0.6.4" },
+    { name = "external-resources-io", specifier = "==0.7.0" },
     { name = "pydantic", specifier = "==2.13.4" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "boto3-stubs-lite", extras = ["ec2", "kafka"], specifier = "==1.43.6" },
-    { name = "external-resources-io", extras = ["cli"], specifier = "==0.6.4" },
+    { name = "external-resources-io", extras = ["cli"], specifier = "==0.7.0" },
     { name = "mypy", specifier = "==1.20.2" },
     { name = "pytest", specifier = "==9.0.3" },
     { name = "pytest-cov", specifier = "==7.1.0" },
@@ -170,15 +170,15 @@ dev = [
 
 [[package]]
 name = "external-resources-io"
-version = "0.6.4"
+version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5b/70/0dbfac5b451bc89bfaea010f3535ee825fbde3192ed3d8860fabaadb18cc/external_resources_io-0.6.4.tar.gz", hash = "sha256:a104cbc030dae3e0bccb2a876b7cced313368b1cda50f06ca0c278f1d2f318e6", size = 9108, upload-time = "2026-05-05T09:28:53.182Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/72/21/c470c314a0859b19ea69126be7e65dbbe963f42b52a76028a52c263e6c70/external_resources_io-0.7.0.tar.gz", hash = "sha256:0e261b941601e633e5cdcd895e7611566dc1a954b53ed69f236db1f64ea5cec5", size = 11054, upload-time = "2026-06-01T07:19:27.443Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e3/78/0afb24ca65a25e27efb6f9b6ec6cee79bd8c21e98a6ec8e8e0e8abb46a58/external_resources_io-0.6.4-py3-none-any.whl", hash = "sha256:55ff5f4fe5fbaa575b1d7a4267692d58518e4dab29192a1a27a8c52b8588f617", size = 11789, upload-time = "2026-05-05T09:28:52.166Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/66/0bd0d9b51de8a0a7e0a57fe0823ff665932f575993324ff7897a41629c27/external_resources_io-0.7.0-py3-none-any.whl", hash = "sha256:42f440a7fe9ed276dd1af23ca8a4d283df20edc3182a0252371272aa777fec87", size = 13927, upload-time = "2026-06-01T07:19:26.488Z" },
 ]
 
 [package.optional-dependencies]
