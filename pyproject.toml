@@ -8,7 +8,7 @@ readme = "README.md"
 requires-python = "~= 3.14.0"
 dependencies = [
     "boto3==1.43.6",
-    "external-resources-io==0.6.4",
+    "external-resources-io==0.7.0",
     "pydantic==2.13.4",
 ]
 
@@ -20,7 +20,7 @@ documentation = "https://github.com/app-sre/er-aws-msk"
 [dependency-groups]
 dev = [
     "boto3-stubs-lite[ec2,kafka]==1.43.6",
-    "external-resources-io[cli]==0.6.4",
+    "external-resources-io[cli]==0.7.0",
     "mypy==1.20.2",
     "pytest==9.0.3",
     "pytest-cov==7.1.0",
