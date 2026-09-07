@@ -63,6 +63,7 @@ ignore = [
     "raw-string-in-exception",
     "f-string-in-exception",
     "raise-vanilla-args",
+    "pytest-fixture-autouse",            # Avoid using autouse=True in pytest.fixture decorators
     # pydoclint
     "DOC",
     # May conflict with the formatter, https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
